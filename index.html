@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Inequalities | 9th Grade</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            text: '#f8fafc',
+                            muted: '#94a3b8',
+                            border: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- KaTeX for Math Symbology -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
+        
+        /* Light Mode (Default) */
+        body.light { background-color: #f0fdfa; color: #334155; }
+        body.light .glass-panel { background: rgba(255, 255, 255, 0.95); border-color: rgba(255, 255, 255, 0.3); }
+        body.light .card { background-color: #ffffff; border-color: #e2e8f0; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        body.light .math-block { background-color: #f8fafc; border-color: #e2e8f0; color: #1e293b; }
+        body.light .nav-bg { background-color: #ffffff; border-color: #f1f5f9;}
+
+        /* Dark Mode */
+        body.dark { background-color: #020617; color: #f8fafc; }
+        body.dark .glass-panel { background: rgba(15, 23, 42, 0.95); border-color: rgba(51, 65, 85, 0.5); }
+        body.dark .card { background-color: #0f172a; border-color: #334155; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); }
+        body.dark .math-block { background-color: #1e293b; border-color: #334155; color: #f8fafc; }
+        body.dark .nav-bg { background-color: #0f172a; border-color: #1e293b;}
+        body.dark .bg-white { background-color: #0f172a !important; color: #f8fafc;}
+        body.dark .bg-slate-50 { background-color: #1e293b !important; color: #e2e8f0;}
+        body.dark .text-slate-800 {color: #f8fafc !important;}
+        body.dark .text-slate-700 {color: #e2e8f0 !important;}
+        body.dark .text-slate-600 {color: #cbd5e1 !important;}
+        body.dark .border-slate-200 { border-color: #334155 !important;}
+        body.dark .bg-slate-100 { background-color: #1e293b !important;}
+        body.dark canvas { background-color: #0f172a !important; border-color: #334155 !important;}
+        body.dark select { background-color: #1e293b; color: white; border-color: #475569; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        .fade-in { animation: fadeIn 0.5s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-container { display: none; }
+        .section-active { display: block; animation: fadeIn 0.6s ease-out; }
+
+        input[type=range] { accent-color: #0d9488; }
+        
+        /* Mejoras en el aspecto del lienzo */
+        canvas.custom-canvas, canvas { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 0.75rem; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(255,255,255,0.1); 
+            transition: background-color 0.3s; 
+        }
+        
+        .glass-panel { backdrop-filter: blur(10px); border: 1px solid; }
+        
+        .math-block { font-size: 1.25rem; margin: 1rem 0; padding: 1.5rem; border-radius: 0.75rem; text-align: center; border: 1px solid; }
+
+        .dark-mode-toggle {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            transition: all 0.3s;
+        }
+
+        .css-decoder-bg {
+            background: linear-gradient(135deg, #06b6d4 0%, #0369a1 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .css-decoder-bg::before {
+            content: '010010 110111 001011 101010 011001 111000 000111';
+            position: absolute;
+            top: -20%; left: -10%; right: -10%; bottom: -20%;
+            font-family: monospace;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.1);
+            line-height: 1.5;
+            transform: rotate(-10deg);
+            pointer-events: none;
+            word-wrap: break-word;
+        }
+
+        /* 3D Button Enhancements */
+        .btn-3d {
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 0 rgba(0,0,0,0.2), 0 10px 15px rgba(0,0,0,0.1);
+        }
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 rgba(0,0,0,0.2), 0 15px 20px rgba(0,0,0,0.15);
+        }
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative text-lg light" onclick="initAudio()">
+
+    <!-- Audio Elements -->
+    <audio id="snd-nav" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" preload="auto"></audio>
+    <audio id="snd-click" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
+    <audio id="snd-success" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
+    <audio id="snd-error" src="https://assets.mixkit.co/active_storage/sfx/2570/2570-preview.mp3" preload="auto"></audio>
+    <audio id="snd-win" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" preload="auto"></audio>
+
+    <!-- INTRO MODAL -->
+    <div id="introModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300">
+        <div class="glass-panel p-8 md:p-12 rounded-3xl shadow-2xl max-w-3xl w-11/12 text-center relative border-t-4 border-teal-500 card">
+            <div class="mb-6 flex justify-center">
+                <div class="bg-teal-100 text-teal-600 p-4 rounded-full">
+                    <i class="fas fa-project-diagram text-4xl"></i>
+                </div>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold text-slate-800 mb-4">Compound Inequalities</h1>
+            <div class="space-y-3 text-left bg-slate-50 p-6 rounded-xl border border-slate-100 mb-8 shadow-inner text-lg">
+                <p><strong class="text-teal-700"><i class="fas fa-bullseye w-6"></i> Objective:</strong> Understand and solve compound inequalities using "AND" and "OR".</p>
+                <p><strong class="text-blue-700"><i class="fas fa-brain w-6"></i> Standard:</strong> Variational Thinking.</p>
+                <p><strong class="text-indigo-700"><i class="fas fa-user-graduate w-6"></i> Grade:</strong> 9th Grade Algebra 1.</p>
+            </div>
+            <button onclick="startApp()" class="btn-3d bg-gradient-to-b from-teal-400 to-teal-600 text-white font-bold py-4 px-10 rounded-full text-2xl mb-6">
+                Start Lesson <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+            <div class="text-sm text-slate-500 font-medium border-t border-slate-200 dark:border-slate-700 pt-4">
+                Design by David Beleño - Math Education - 9th Grade.
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="mainApp" class="flex-grow flex flex-col hidden opacity-0 transition-opacity duration-700 w-11/12 max-w-[1200px] mx-auto p-4 md:p-8">
+        
+        <header class="flex justify-between items-center mb-8 nav-bg p-4 rounded-2xl shadow-sm border">
+            <h2 class="text-3xl font-bold text-teal-700"><i class="fas fa-infinity mr-2"></i> Compound Inequalities</h2>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 shadow-inner hover:scale-105 border">
+                    <i id="theme-icon" class="fas fa-moon"></i>
+                </button>
+                <div class="text-lg font-semibold text-slate-500 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 py-2 px-6 rounded-full border dark:border-slate-600">
+                    Section <span id="sectionIndicator">1</span> of 8
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-grow relative card rounded-3xl border p-6 md:p-12 mb-8 overflow-hidden">
+            
+            <!-- SECTION 1: Intro -->
+            <section id="section-1" class="section-container section-active">
+                
+                <!-- NEW PART 1: What Is a Compound Statement? -->
+                <div class="mb-12">
+                    <div class="text-center mb-6">
+                        <span class="inline-block py-1 px-4 rounded-full bg-slate-800 text-white font-bold text-sm mb-3 tracking-widest shadow-sm">SECTION 1 • COMPOUND STATEMENTS</span>
+                        <h2 class="text-4xl md:text-5xl font-bold text-slate-800">What Is a Compound Statement?</h2>
+                    </div>
+
+                    <div class="bg-amber-100/50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700/50 p-6 rounded-xl shadow-sm mb-10 text-center">
+                        <p class="text-2xl text-slate-700 dark:text-slate-200">
+                            <strong>Compound statement:</strong> two simple statements joined by the word "and" or the word "or."
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-8 mb-10">
+                        <div class="bg-white dark:bg-slate-800 px-8 py-6 rounded-2xl border-2 border-slate-200 dark:border-slate-700 shadow-lg text-2xl font-bold text-slate-700 flex-1 text-center w-full">
+                            Statement A
+                        </div>
+                        
+                        <div class="flex flex-col gap-3">
+                            <div class="bg-teal-600 text-white px-12 py-3 rounded-full font-bold text-xl text-center shadow-md">AND</div>
+                            <div class="bg-orange-600 text-white px-12 py-3 rounded-full font-bold text-xl text-center shadow-md">OR</div>
+                        </div>
+
+                        <div class="bg-white dark:bg-slate-800 px-8 py-6 rounded-2xl border-2 border-slate-200 dark:border-slate-700 shadow-lg text-2xl font-bold text-slate-700 flex-1 text-center w-full">
+                            Statement B
+                        </div>
+                    </div>
+
+                    <div class="max-w-2xl mx-auto pl-4">
+                        <ul class="space-y-3 text-xl text-slate-700 dark:text-slate-300">
+                            <li class="flex items-center"><span class="text-2xl mr-3">•</span> Each part can be true or false on its own</li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">•</span> The joining word decides when the WHOLE statement is true</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr class="border-slate-200 dark:border-slate-700 my-12">
+
+                <!-- ORIGINAL PART: Logic in Everyday Life -->
+                <div class="text-center mb-10">
+                    <span class="inline-block py-1 px-4 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold text-sm mb-3">Logic Practice</span>
+                    <h2 class="text-4xl font-bold text-slate-800">Logic in Everyday Life</h2>
+                    <p class="text-slate-600 mt-4 text-xl">Before using math, let's see how we use "AND" and "OR" in daily statements.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="bg-blue-50 dark:bg-slate-800 p-8 rounded-2xl border border-blue-100 dark:border-slate-700 hover:shadow-md transition">
+                        <div class="text-blue-500 text-4xl mb-4"><i class="fas fa-cloud-rain"></i> <i class="fas fa-umbrella"></i></div>
+                        <p class="font-semibold text-2xl mb-4">"It is raining AND I have an umbrella."</p>
+                        <p class="mb-6 text-slate-700 text-lg">For this whole statement to be TRUE, what must happen?</p>
+                        <div class="space-y-4">
+                            <button onclick="checkLogicQuiz(1, false, this)" class="w-full text-left p-4 text-lg rounded-xl border border-blue-200 dark:border-slate-600 hover:bg-blue-100 dark:hover:bg-slate-700 bg-white dark:bg-slate-800 transition">Only one part needs to be true.</button>
+                            <button onclick="checkLogicQuiz(1, true, this)" class="w-full text-left p-4 text-lg rounded-xl border border-blue-200 dark:border-slate-600 hover:bg-blue-100 dark:hover:bg-slate-700 bg-white dark:bg-slate-800 transition">Both conditions must be true at the same time.</button>
+                        </div>
+                        <div id="feedback-1" class="hidden mt-4 p-4 rounded-lg text-lg font-semibold"></div>
+                    </div>
+
+                    <div class="bg-orange-50 dark:bg-slate-800 p-8 rounded-2xl border border-orange-100 dark:border-slate-700 hover:shadow-md transition">
+                        <div class="text-orange-500 text-4xl mb-4"><i class="fas fa-walking"></i> <i class="fas fa-bus"></i></div>
+                        <p class="font-semibold text-2xl mb-4">"I will walk OR I will take the bus."</p>
+                        <p class="mb-6 text-slate-700 text-lg">For this statement to be TRUE, what must happen?</p>
+                        <div class="space-y-4">
+                            <button onclick="checkLogicQuiz(2, true, this)" class="w-full text-left p-4 text-lg rounded-xl border border-orange-200 dark:border-slate-600 hover:bg-orange-100 dark:hover:bg-slate-700 bg-white dark:bg-slate-800 transition">At least one of the options must happen.</button>
+                            <button onclick="checkLogicQuiz(2, false, this)" class="w-full text-left p-4 text-lg rounded-xl border border-orange-200 dark:border-slate-600 hover:bg-orange-100 dark:hover:bg-slate-700 bg-white dark:bg-slate-800 transition">I must do both things necessarily.</button>
+                        </div>
+                        <div id="feedback-2" class="hidden mt-4 p-4 rounded-lg text-lg font-semibold"></div>
+                    </div>
+                </div>
+                
+                <div id="quiz-success" class="hidden mt-8 text-center bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 p-6 rounded-xl border border-emerald-200 dark:border-emerald-800">
+                    <i class="fas fa-check-circle text-4xl mb-3"></i>
+                    <p class="font-bold text-2xl">Excellent!</p>
+                    <p class="text-lg mt-2">You understand the basic logic. In mathematics, it works exactly the same way.</p>
+                </div>
+
+                <hr class="border-slate-200 dark:border-slate-700 my-12">
+
+                <!-- NEW PART 2: Tools We Will Need -->
+                <div>
+                    <div class="mb-8">
+                        <span class="inline-block py-1 px-4 rounded-full bg-amber-500 text-white font-bold text-sm mb-3 shadow-md tracking-widest">TOOLKIT</span>
+                        <h2 class="text-4xl font-bold text-slate-800">Tools We Will Need</h2>
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 overflow-x-auto">
+                            <table class="w-full text-left border-collapse bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg border-2 border-slate-800 dark:border-slate-600">
+                                <thead class="bg-slate-900 text-white">
+                                    <tr>
+                                        <th class="p-4 border-b border-slate-700 text-center">Symbol</th>
+                                        <th class="p-4 border-b border-slate-700">Means</th>
+                                        <th class="p-4 border-b border-slate-700 text-center">Number-line dot</th>
+                                        <th class="p-4 border-b border-slate-700 text-center">Interval bracket</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-xl">
+                                    <tr class="border-b border-slate-200 dark:border-slate-700">
+                                        <td class="p-4 text-center font-bold font-mono">&lt;</td>
+                                        <td class="p-4">less than</td>
+                                        <td class="p-4 text-center">open <span class="text-slate-400 text-2xl">○</span></td>
+                                        <td class="p-4 text-center font-bold text-teal-600">( or )</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-200 dark:border-slate-700">
+                                        <td class="p-4 text-center font-bold font-mono">&le;</td>
+                                        <td class="p-4">less than or equal to</td>
+                                        <td class="p-4 text-center">closed <span class="text-slate-800 dark:text-slate-200 text-2xl">●</span></td>
+                                        <td class="p-4 text-center font-bold text-orange-600">[ or ]</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-200 dark:border-slate-700">
+                                        <td class="p-4 text-center font-bold font-mono">&gt;</td>
+                                        <td class="p-4">greater than</td>
+                                        <td class="p-4 text-center">open <span class="text-slate-400 text-2xl">○</span></td>
+                                        <td class="p-4 text-center font-bold text-teal-600">( or )</td>
+                                    </tr>
+                                    <tr class="border-b border-slate-200 dark:border-slate-700">
+                                        <td class="p-4 text-center font-bold font-mono">&ge;</td>
+                                        <td class="p-4">greater than or equal to</td>
+                                        <td class="p-4 text-center">closed <span class="text-slate-800 dark:text-slate-200 text-2xl">●</span></td>
+                                        <td class="p-4 text-center font-bold text-orange-600">[ or ]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="mt-4 text-slate-500 italic text-center md:text-left">Open = the endpoint is NOT included. Closed = the endpoint IS included.</p>
+                        </div>
+                        
+                        <div class="bg-amber-100/50 dark:bg-amber-900/20 border-2 border-amber-300 dark:border-amber-600 p-8 rounded-2xl shadow-lg h-fit">
+                            <h4 class="font-bold text-amber-700 dark:text-amber-400 mb-6 text-2xl border-b border-amber-300 dark:border-amber-700 pb-2">Remember</h4>
+                            <ul class="space-y-6 text-xl">
+                                <li class="flex items-start"><span class="text-amber-500 mr-3 text-2xl">•</span> <span><strong>&infin;</strong> and <strong>-&infin;</strong> always get ( )</span></li>
+                                <li class="flex items-start"><span class="text-amber-500 mr-3 text-2xl">•</span> <span><strong>&cup;</strong> means "union": joins two pieces</span></li>
+                                <li class="flex items-start"><span class="text-amber-500 mr-3 text-2xl">•</span> <span><strong>&times;</strong> or <strong>&divide;</strong> by a negative &rarr; flip the sign</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- SECTION 2: AND Theory -->
+            <section id="section-2" class="section-container">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="bg-teal-500 text-white font-bold py-2 px-8 rounded-full text-3xl tracking-widest shadow-md">AND</div>
+                    <h2 class="text-4xl font-bold text-slate-800">Overlap & Intersection</h2>
+                </div>
+                
+                <div class="grid lg:grid-cols-2 gap-10 items-center mb-8">
+                    <div>
+                        <p class="text-xl text-slate-700 mb-6 leading-relaxed">
+                            An inequality with <strong class="text-teal-600 dark:text-teal-400">AND</strong> requires <strong>both</strong> parts to be true. On the 3-level number line, the solution is where the lines <span class="underline decoration-teal-400 decoration-4">overlap</span>.
+                        </p>
+                        <div class="math-block border-l-8 border-l-teal-500 shadow-sm">
+                            $$x > 1 \quad \text{AND} \quad x < 4$$
+                            <p class="text-base text-slate-500 mt-4">Written together: $$1 < x < 4$$</p>
+                            <p class="text-base text-slate-500">Interval Notation: $$(1, 4)$$</p>
+                        </div>
+                    </div>
+                    <div class="w-full">
+                        <canvas id="canvas-theory-and" class="custom-canvas"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: OR Theory -->
+            <section id="section-3" class="section-container">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="bg-orange-500 text-white font-bold py-2 px-8 rounded-full text-3xl tracking-widest shadow-md">OR</div>
+                    <h2 class="text-4xl font-bold text-slate-800">Union of Solutions</h2>
+                </div>
+                
+                <div class="grid lg:grid-cols-2 gap-10 items-center mb-8">
+                    <div>
+                        <p class="text-xl text-slate-700 mb-6 leading-relaxed">
+                            An inequality with <strong class="text-orange-600 dark:text-orange-400">OR</strong> requires <strong>at least one</strong> part to be true. On the number line, we keep everything that is shaded by <span class="underline decoration-orange-400 decoration-4">either inequality</span>.
+                        </p>
+                        <div class="math-block border-l-8 border-l-orange-500 shadow-sm">
+                            $$x \le -1 \quad \text{OR} \quad x > 3$$
+                            <p class="text-base text-slate-500 mt-4">Interval Notation: $$(-\infty, -1] \cup (3, \infty)$$</p>
+                        </div>
+                    </div>
+                    <div class="w-full">
+                         <canvas id="canvas-theory-or" class="custom-canvas"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: Interactive Lab -->
+            <section id="section-4" class="section-container">
+                <div class="text-center mb-8">
+                    <span class="inline-block py-1 px-4 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 font-semibold text-sm mb-3">Laboratory</span>
+                    <h2 class="text-4xl font-bold text-slate-800">Free Play Lab</h2>
+                    <p class="text-slate-600 mt-4 text-xl">Adjust the sliders and logic to see how the 3-line graph reacts in real-time.</p>
+                </div>
+
+                <div id="lab-container"></div> <!-- Injected via JS -->
+            </section>
+
+            <!-- SECTION 5: Examples -->
+            <section id="section-5" class="section-container">
+                <div class="text-center mb-10">
+                    <span class="inline-block py-1 px-4 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 font-semibold text-sm mb-3">Step-by-Step</span>
+                    <h2 class="text-4xl font-bold text-slate-800">Solving Examples</h2>
+                    <p class="text-slate-600 mt-4 text-xl">Read the algebraic solution, then build the graph to verify it.</p>
+                </div>
+
+                <div class="space-y-12">
+                    <!-- Example 1 -->
+                    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl border-2 border-teal-100 dark:border-teal-900 shadow-lg relative">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4">Example 1: "AND" statement</h3>
+                        <div class="math-block bg-slate-50 border-teal-200">
+                            $$-6 \le 4x - 2 < 10$$
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-8 mt-6">
+                            <div class="bg-slate-50 p-6 rounded-xl border dark:border-slate-700 shadow-sm">
+                                <h4 class="font-bold text-teal-700 dark:text-teal-400 mb-2">Part A</h4>
+                                <p class="mb-1">$$ -6 \le 4x - 2 $$</p>
+                                <p class="mb-1">$$ -4 \le 4x $$ <span class="text-sm text-slate-500">(add 2)</span></p>
+                                <p class="font-bold text-teal-700 text-xl">$$ x \ge -1 $$</p>
+                            </div>
+                            <div class="bg-slate-50 p-6 rounded-xl border dark:border-slate-700 shadow-sm">
+                                <h4 class="font-bold text-teal-700 dark:text-teal-400 mb-2">Part B</h4>
+                                <p class="mb-1">$$ 4x - 2 < 10 $$</p>
+                                <p class="mb-1">$$ 4x < 12 $$ <span class="text-sm text-slate-500">(add 2)</span></p>
+                                <p class="font-bold text-teal-700 text-xl">$$ x < 3 $$</p>
+                            </div>
+                        </div>
+                        <p class="mt-8 text-center text-xl font-bold mb-6">Now build the graph for <span class="text-teal-600 px-3 py-1 bg-teal-50 dark:bg-teal-900/30 rounded border border-teal-200 dark:border-teal-800">x &ge; -1 AND x < 3</span></p>
+                        <div id="ex1-container"></div>
+                    </div>
+
+                    <!-- Example 2 -->
+                    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl border-2 border-orange-100 dark:border-orange-900 shadow-lg relative">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4">Example 2: "OR" statement</h3>
+                        <div class="math-block bg-slate-50 border-orange-200">
+                            $$3x - 8 \le -14 \quad \text{OR} \quad 5x + 7 > 17$$
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-8 mt-6">
+                            <div class="bg-slate-50 p-6 rounded-xl border dark:border-slate-700 shadow-sm">
+                                <h4 class="font-bold text-orange-700 dark:text-orange-400 mb-2">Left Side</h4>
+                                <p class="mb-1">$$ 3x - 8 \le -14 $$</p>
+                                <p class="font-bold text-orange-700 text-xl">$$ x \le -2 $$ <span class="text-sm text-slate-500">(+8, then /3)</span></p>
+                            </div>
+                            <div class="bg-slate-50 p-6 rounded-xl border dark:border-slate-700 shadow-sm">
+                                <h4 class="font-bold text-orange-700 dark:text-orange-400 mb-2">Right Side</h4>
+                                <p class="mb-1">$$ 5x + 7 > 17 $$</p>
+                                <p class="font-bold text-orange-700 text-xl">$$ x > 2 $$ <span class="text-sm text-slate-500">(-7, then /5)</span></p>
+                            </div>
+                        </div>
+                        <p class="mt-8 text-center text-xl font-bold mb-6">Now build the graph for <span class="text-orange-600 px-3 py-1 bg-orange-50 dark:bg-orange-900/30 rounded border border-orange-200 dark:border-orange-800">x &le; -2 OR x > 2</span></p>
+                        <div id="ex2-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: Exercises -->
+            <section id="section-6" class="section-container">
+                <div class="text-center mb-10">
+                    <span class="inline-block py-1 px-4 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 font-semibold text-sm mb-3">Practice</span>
+                    <h2 class="text-4xl font-bold text-slate-800">Your Turn</h2>
+                    <p class="text-slate-600 mt-4 text-xl">Solve the inequality on paper, then build the correct graph and verify it.</p>
+                </div>
+
+                <div class="space-y-12">
+                    <!-- Q1 -->
+                    <div class="bg-white p-8 rounded-2xl border-2 border-slate-200 shadow-lg">
+                        <h4 class="font-bold text-slate-700 mb-2 text-2xl border-b pb-2">Problem 1 (AND)</h4>
+                        <div class="math-block">$$ -3 < 2x + 5 \le 11 $$</div>
+                        <div id="yt1-container" class="mt-6"></div>
+                    </div>
+                    <!-- Q2 -->
+                    <div class="bg-white p-8 rounded-2xl border-2 border-slate-200 shadow-lg">
+                        <h4 class="font-bold text-slate-700 mb-2 text-2xl border-b pb-2">Problem 2 (OR)</h4>
+                        <div class="math-block">$$ 4x + 1 < -7 \text{ OR } 2x - 3 \ge 5 $$</div>
+                        <div id="yt2-container" class="mt-6"></div>
+                    </div>
+                    <!-- Q3 -->
+                    <div class="bg-white p-8 rounded-2xl border-2 border-slate-200 shadow-lg">
+                        <h4 class="font-bold text-slate-700 mb-2 text-2xl border-b pb-2">Problem 3 (AND)</h4>
+                        <div class="math-block">$$ -2x + 3 > -5 \text{ AND } x + 4 \ge 1 $$</div>
+                        <p class="text-lg text-rose-500 font-bold mb-4 text-center">* Remember to flip the sign when dividing by a negative number!</p>
+                        <div id="yt3-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 7: Challenge -->
+            <section id="section-7" class="section-container">
+                <div class="text-center mb-10">
+                    <span class="inline-block py-1 px-4 rounded-full bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 font-semibold text-sm mb-3 shadow">Hard</span>
+                    <h2 class="text-4xl font-bold text-slate-800">Challenge Problem</h2>
+                </div>
+
+                <div class="bg-slate-900 p-8 md:p-12 rounded-3xl shadow-2xl relative overflow-hidden text-white border-4 border-slate-800">
+                    <i class="fas fa-meteor absolute top-5 right-5 text-6xl text-slate-700 opacity-50"></i>
+                    <h3 class="text-3xl font-bold mb-6 text-red-400">Nested Compound Inequality</h3>
+                    
+                    <div class="math-block">
+                        $$ -12 < 3(2x - 4) \le 18 $$
+                    </div>
+                    
+                    <div class="mt-8 bg-slate-800/80 p-8 rounded-2xl border border-slate-700 shadow-inner">
+                        <p class="text-2xl mb-4 font-bold text-teal-300">Solve & Graph the final solution!</p>
+                        <p class="text-slate-300 mb-8 text-lg">Perform the algebraic steps (divide by 3, add 4, divide by 2) to find the final bounds for <strong>x</strong>. Then, build the 3-line graph representing your final answer.</p>
+                        
+                        <div id="chalGraph-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 8: Decoder Link -->
+            <section id="section-8" class="section-container">
+                <div class="text-center mb-10">
+                    <span class="inline-block py-1 px-4 rounded-full bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300 font-semibold text-sm mb-3">Final Activity</span>
+                    <h2 class="text-4xl font-bold text-slate-800">Inequality Decoder</h2>
+                    <p class="text-slate-600 mt-4 text-xl">Put all your skills to the test in this interactive game.</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-10 bg-cyan-50 dark:bg-slate-800 p-10 rounded-3xl border-2 border-cyan-200 dark:border-cyan-800 shadow-lg">
+                    <div class="flex-1 w-full relative group css-decoder-bg rounded-2xl shadow-xl border-4 border-white dark:border-slate-700 aspect-video flex items-center justify-center">
+                        <div class="absolute inset-0 bg-black opacity-20 group-hover:opacity-10 transition-opacity"></div>
+                        <div class="z-10 flex flex-col items-center">
+                            <i class="fas fa-lock text-6xl text-white drop-shadow-lg group-hover:scale-110 transition-transform mb-4"></i>
+                            <span class="text-white font-mono font-bold text-2xl tracking-widest bg-black/30 px-4 py-1 rounded backdrop-blur-sm">ACCESS_CODE</span>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 space-y-6 text-center md:text-left">
+                        <h3 class="text-3xl font-bold text-slate-800">Crack the Code!</h3>
+                        <p class="text-xl text-slate-600">Click the link below to enter the external decoding activity. You will use your knowledge of AND/OR inequalities to decipher the secret message.</p>
+                        <a href="https://compound-inequalities.onrender.com/" target="_blank" onclick="playSound('win')" class="btn-3d inline-block bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-2xl py-4 px-10 rounded-xl shadow-lg">
+                            Launch Decoder <i class="fas fa-external-link-alt ml-3"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER & NAV -->
+        <footer class="flex flex-col md:flex-row justify-between items-center gap-6 nav-bg p-6 rounded-3xl shadow-md border mt-auto">
+            <button id="btnPrev" onclick="navigate(-1)" class="btn-3d w-full md:w-auto px-8 py-4 rounded-full font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed text-xl">
+                <i class="fas fa-arrow-left mr-2"></i> Previous
+            </button>
+            
+            <!-- HOME BUTTON IMPLEMENTATION -->
+            <div class="flex-grow text-center w-full md:w-auto">
+                <button onclick="goHome()" class="btn-3d w-full md:w-auto px-10 py-4 rounded-full font-bold text-white bg-slate-800 dark:bg-slate-600 text-xl border-2 border-transparent hover:border-slate-500">
+                    <i class="fas fa-home mr-2"></i> HOME
+                </button>
+            </div>
+            
+            <button id="btnNext" onclick="navigate(1)" class="btn-3d w-full md:w-auto px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-teal-400 to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed text-xl">
+                Next <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </footer>
+    </div>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        let currentSection = 1;
+        const totalSections = 8;
+        let audioInitialized = false;
+
+        const graphConfigs = {
+            'lab': { mode: 'free', defaultLogic: 'AND' },
+            'ex1': { mode: 'verify', logic: 'AND', expA: {op: '>=', val: -1}, expB: {op: '<', val: 3} },
+            'ex2': { mode: 'verify', logic: 'OR',  expA: {op: '<=', val: -2}, expB: {op: '>', val: 2} },
+            'yt1': { mode: 'verify', logic: 'AND', expA: {op: '>', val: -4}, expB: {op: '<=', val: 3} },
+            'yt2': { mode: 'verify', logic: 'OR',  expA: {op: '<', val: -2}, expB: {op: '>=', val: 4} },
+            'yt3': { mode: 'verify', logic: 'AND', expA: {op: '>=', val: -3}, expB: {op: '<', val: 4} },
+            'chalGraph': { mode: 'verify', logic: 'AND', expA: {op: '>', val: 0}, expB: {op: '<=', val: 5} }
+        };
+
+        function initAudio() {
+            if(audioInitialized) return;
+            ['click', 'nav', 'success', 'error', 'win'].forEach(type => {
+                let s = document.getElementById(`snd-${type}`);
+                if(s) s.volume = 0.5;
+            });
+            audioInitialized = true;
+        }
+
+        function playSound(type) {
+            try {
+                let sound = document.getElementById(`snd-${type}`);
+                if(sound) { sound.currentTime = 0; sound.play().catch(e=>{}); }
+            } catch(e) {}
+        }
+
+        function toggleDarkMode() {
+            playSound('click');
+            document.body.classList.toggle('dark');
+            document.body.classList.toggle('light');
+            const icon = document.getElementById('theme-icon');
+            icon.className = document.body.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon';
+            redrawAllCanvases();
+        }
+
+        window.onload = () => {
+            initGraphBuilders();
+            setTimeout(redrawAllCanvases, 100);
+            
+            // Listen for window resize to re-render HD canvases properly
+            window.addEventListener('resize', redrawAllCanvases);
+        };
+
+        function startApp() {
+            playSound('success');
+            const modal = document.getElementById('introModal');
+            const mainApp = document.getElementById('mainApp');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                mainApp.classList.remove('hidden');
+                setTimeout(() => {
+                    mainApp.style.opacity = '1';
+                    redrawAllCanvases();
+                }, 50);
+            }, 300);
+            updateNav();
+        }
+
+        // HOME FUNCTIONALITY IMPLEMENTATION
+        function goHome() {
+            playSound('nav');
+            const modal = document.getElementById('introModal');
+            const mainApp = document.getElementById('mainApp');
+            
+            mainApp.style.opacity = '0';
+            setTimeout(() => {
+                mainApp.classList.add('hidden');
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.style.opacity = '1';
+                }, 50);
+            }, 500);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigate(direction) {
+            playSound('nav');
+            const newSection = currentSection + direction;
+            if (newSection >= 1 && newSection <= totalSections) {
+                document.getElementById(`section-${currentSection}`).classList.remove('section-active');
+                currentSection = newSection;
+                document.getElementById(`section-${currentSection}`).classList.add('section-active');
+                updateNav();
+                setTimeout(redrawAllCanvases, 50);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function updateNav() {
+            document.getElementById('sectionIndicator').innerText = currentSection;
+            document.getElementById('btnPrev').disabled = currentSection === 1;
+            document.getElementById('btnNext').disabled = currentSection === totalSections;
+        }
+
+        function checkLogicQuiz(qId, isCorrect, btnElement) {
+            playSound(isCorrect ? 'success' : 'error');
+            const feedback = document.getElementById(`feedback-${qId}`);
+            feedback.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-emerald-100', 'text-emerald-700', 'dark:bg-red-900', 'dark:bg-emerald-900');
+            
+            const buttons = btnElement.parentElement.querySelectorAll('button');
+            buttons.forEach(b => b.classList.remove('ring-4', 'ring-emerald-500', 'ring-red-500', 'bg-emerald-50', 'bg-red-50', 'dark:bg-emerald-900', 'dark:bg-red-900'));
+
+            if (isCorrect) {
+                feedback.innerHTML = '<i class="fas fa-check"></i> Correct!';
+                feedback.classList.add('bg-emerald-100', 'text-emerald-700', 'dark:bg-emerald-900', 'dark:text-emerald-300');
+                btnElement.classList.add('ring-4', 'ring-emerald-500', 'bg-emerald-50', 'dark:bg-emerald-900');
+                
+                const q1btn = document.querySelector('#section-1 .bg-blue-50 .ring-emerald-500') || document.querySelector('#section-1 .dark\\:bg-slate-800 .ring-emerald-500');
+                const q2btn = document.querySelector('#section-1 .bg-orange-50 .ring-emerald-500') || document.querySelector('#section-1 .dark\\:bg-slate-800 .ring-emerald-500');
+                if(q1btn && q2btn) {
+                    document.getElementById('quiz-success').classList.remove('hidden');
+                    document.getElementById('quiz-success').classList.add('fade-in');
+                }
+            } else {
+                feedback.innerHTML = '<i class="fas fa-times"></i> Try again.';
+                feedback.classList.add('bg-red-100', 'text-red-700', 'dark:bg-red-900', 'dark:text-red-300');
+                btnElement.classList.add('ring-4', 'ring-red-500', 'bg-red-50', 'dark:bg-red-900');
+            }
+        }
+
+        function initGraphBuilders() {
+            Object.keys(graphConfigs).forEach(id => {
+                const conf = graphConfigs[id];
+                const isFree = conf.mode === 'free';
+                const container = document.getElementById(`${id}-container`);
+                if(!container) return;
+
+                let logicSelectorHtml = isFree ? `
+                    <div class="flex justify-center mb-6">
+                        <div class="bg-slate-200 dark:bg-slate-700 p-1 rounded-xl flex shadow-inner">
+                            <button id="${id}-btnAnd" onclick="setBuilderLogic('${id}', 'AND')" class="px-8 py-3 rounded-lg font-bold transition-all bg-teal-500 text-white shadow-md text-xl">AND</button>
+                            <button id="${id}-btnOr" onclick="setBuilderLogic('${id}', 'OR')" class="px-8 py-3 rounded-lg font-bold transition-all text-slate-600 dark:text-slate-300 text-xl">OR</button>
+                        </div>
+                    </div>
+                ` : `<input type="hidden" id="${id}-logic" value="${conf.logic}">
+                     <div class="text-center font-bold text-2xl mb-6 text-slate-600 dark:text-slate-300">Logic: <span class="${conf.logic === 'AND' ? 'text-teal-600' : 'text-orange-600'}">${conf.logic}</span></div>`;
+
+                let verifyHtml = !isFree ? `
+                    <div class="mt-8 text-center">
+                        <button onclick="verifyBuilder('${id}')" class="btn-3d bg-indigo-500 text-white font-bold py-4 px-12 rounded-xl text-xl">Verify Answer</button>
+                        <div id="${id}-feedback" class="mt-6 font-bold text-2xl hidden p-4 rounded-xl shadow-inner"></div>
+                    </div>
+                ` : '';
+
+                let defAVal = conf.expA ? (conf.expA.val - 1) : -2;
+                let defBVal = conf.expB ? (conf.expB.val + 1) : 3;
+
+                const html = `
+                    <div class="bg-slate-50 dark:bg-slate-800 p-8 rounded-2xl border dark:border-slate-700 shadow-inner w-full">
+                        ${logicSelectorHtml}
+                        <div class="grid md:grid-cols-2 gap-8 mb-8">
+                            <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border-l-8 border-blue-500 shadow-md">
+                                <div class="flex items-center justify-between mb-4 text-xl">
+                                    <span class="font-bold text-blue-600 dark:text-blue-400">Inequality 1: x</span>
+                                    <select id="${id}-opA" class="border-2 p-2 rounded-lg font-mono font-bold" onchange="updateBuilderGraph('${id}')">
+                                        <option value="<"><</option><option value="<=">&le;</option>
+                                        <option value=">">></option><option value=">=">&ge;</option>
+                                    </select>
+                                    <span id="${id}-valADisp" class="font-mono font-bold w-12 text-center bg-slate-100 dark:bg-slate-700 rounded-lg p-2">${defAVal}</span>
+                                </div>
+                                <input type="range" id="${id}-valA" min="-10" max="10" step="1" value="${defAVal}" class="w-full cursor-pointer h-2 bg-slate-200 rounded-lg appearance-none" oninput="updateBuilderGraph('${id}')">
+                            </div>
+                            <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border-l-8 border-orange-500 shadow-md">
+                                <div class="flex items-center justify-between mb-4 text-xl">
+                                    <span class="font-bold text-orange-600 dark:text-orange-400">Inequality 2: x</span>
+                                    <select id="${id}-opB" class="border-2 p-2 rounded-lg font-mono font-bold" onchange="updateBuilderGraph('${id}')">
+                                        <option value="<"><</option><option value="<=">&le;</option>
+                                        <option value=">">></option><option value=">=">&ge;</option>
+                                    </select>
+                                    <span id="${id}-valBDisp" class="font-mono font-bold w-12 text-center bg-slate-100 dark:bg-slate-700 rounded-lg p-2">${defBVal}</span>
+                                </div>
+                                <input type="range" id="${id}-valB" min="-10" max="10" step="1" value="${defBVal}" class="w-full cursor-pointer h-2 bg-slate-200 rounded-lg appearance-none" oninput="updateBuilderGraph('${id}')">
+                            </div>
+                        </div>
+                        <div class="w-full overflow-hidden rounded-xl border-2 border-slate-200 dark:border-slate-700 shadow-lg">
+                            <canvas id="${id}-canvas" class="w-full h-auto bg-white dark:bg-slate-900"></canvas>
+                        </div>
+                        ${verifyHtml}
+                    </div>
+                `;
+                container.innerHTML = html;
+                
+                if(conf.expA) { document.getElementById(`${id}-opA`).value = '<'; }
+                if(conf.expB) { document.getElementById(`${id}-opB`).value = '>'; }
+                if(isFree) { 
+                    graphConfigs[id].logic = 'AND'; 
+                    document.getElementById(`${id}-opA`).value = '>';
+                    document.getElementById(`${id}-opB`).value = '<';
+                }
+
+                updateBuilderGraph(id);
+            });
+        }
+
+        function setBuilderLogic(id, logic) {
+            playSound('click');
+            graphConfigs[id].logic = logic;
+            const btnAnd = document.getElementById(`${id}-btnAnd`);
+            const btnOr = document.getElementById(`${id}-btnOr`);
+            if (logic === 'AND') {
+                btnAnd.className = "px-8 py-3 rounded-lg font-bold transition-all bg-teal-500 text-white shadow-md text-xl";
+                btnOr.className = "px-8 py-3 rounded-lg font-bold transition-all text-slate-600 dark:text-slate-300 text-xl";
+            } else {
+                btnOr.className = "px-8 py-3 rounded-lg font-bold transition-all bg-orange-500 text-white shadow-md text-xl";
+                btnAnd.className = "px-8 py-3 rounded-lg font-bold transition-all text-slate-600 dark:text-slate-300 text-xl";
+            }
+            updateBuilderGraph(id);
+        }
+
+        function updateBuilderGraph(id) {
+            const valA = parseInt(document.getElementById(`${id}-valA`).value);
+            const opA = document.getElementById(`${id}-opA`).value;
+            const valB = parseInt(document.getElementById(`${id}-valB`).value);
+            const opB = document.getElementById(`${id}-opB`).value;
+            const logic = graphConfigs[id].logic;
+
+            document.getElementById(`${id}-valADisp`).innerText = valA;
+            document.getElementById(`${id}-valBDisp`).innerText = valB;
+
+            const canvas = document.getElementById(`${id}-canvas`);
+            if(canvas) drawThreeLines(canvas, valA, opA, valB, opB, logic);
+
+            const fb = document.getElementById(`${id}-feedback`);
+            if(fb) fb.classList.add('hidden');
+        }
+
+        function verifyBuilder(id) {
+            const conf = graphConfigs[id];
+            const valA = parseInt(document.getElementById(`${id}-valA`).value);
+            const opA = document.getElementById(`${id}-opA`).value;
+            const valB = parseInt(document.getElementById(`${id}-valB`).value);
+            const opB = document.getElementById(`${id}-opB`).value;
+
+            const match1 = (valA === conf.expA.val && opA === conf.expA.op) && (valB === conf.expB.val && opB === conf.expB.op);
+            const match2 = (valA === conf.expB.val && opA === conf.expB.op) && (valB === conf.expA.val && opB === conf.expA.op);
+
+            const fb = document.getElementById(`${id}-feedback`);
+            fb.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'bg-emerald-100', 'text-emerald-700');
+
+            if (match1 || match2) {
+                playSound('success');
+                fb.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Perfect! Graph matches the solution.';
+                fb.classList.add('bg-emerald-100', 'text-emerald-700', 'dark:bg-emerald-900', 'dark:text-emerald-300', 'border-2', 'border-emerald-500');
+            } else {
+                playSound('error');
+                fb.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Incorrect. Check your inequalities and operators.';
+                fb.classList.add('bg-red-100', 'text-red-700', 'dark:bg-red-900', 'dark:text-red-300', 'border-2', 'border-red-500');
+            }
+        }
+
+        function evaluateInequality(val, operator, x) {
+            switch(operator) {
+                case '<': return x < val;
+                case '<=': return x <= val;
+                case '>': return x > val;
+                case '>=': return x >= val;
+            }
+            return false;
+        }
+
+        function isEndpointIncluded(operator) { return operator === '<=' || operator === '>='; }
+
+        // HIGH DEFINITION HD/3D CANVAS DRAWING IMPLEMENTATION
+        function drawThreeLines(canvas, valA, opA, valB, opB, logicType) {
+            const ctx = canvas.getContext('2d');
+            
+            // Resolución base lógica para el lienzo interno (alta calidad)
+            const logicalW = 1000;
+            const logicalH = 400;
+            const dpr = window.devicePixelRatio || 1;
+
+            // Configurar el tamaño interno multiplicando por la densidad de píxeles (Para HD/Retina)
+            canvas.width = logicalW * dpr;
+            canvas.height = logicalH * dpr;
+            
+            // Reescalar el contexto para que las coordenadas lógicas cuadren
+            ctx.scale(dpr, dpr);
+            
+            const W = logicalW;
+            const H = logicalH;
+            
+            const isDark = document.body.classList.contains('dark');
+            const bgColor = isDark ? '#0f172a' : '#ffffff';
+            const textColor = isDark ? '#f8fafc' : '#334155';
+            const gridColor = isDark ? '#475569' : '#cbd5e1'; // Slightly darker lines for better contrast
+            
+            ctx.clearRect(0, 0, W, H);
+
+            const minX = -10.5, maxX = 10.5;
+            const margin = 80, usableW = W - 2 * margin;
+            const mapX = (val) => margin + ((val - minX) / (maxX - minX)) * usableW;
+
+            // Utilidad para añadir efecto 3D
+            function applyShadow() {
+                ctx.shadowColor = isDark ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 6;
+                ctx.shadowOffsetY = 3;
+            }
+            function clearShadow() {
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetY = 0;
+            }
+
+            function drawAxis(yPos, label) {
+                clearShadow();
+                ctx.beginPath(); ctx.moveTo(margin - 20, yPos); ctx.lineTo(W - margin + 20, yPos);
+                ctx.lineWidth = 4; ctx.strokeStyle = gridColor; ctx.stroke();
+
+                ctx.font = '16px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+                ctx.fillStyle = textColor;
+                for(let i = -10; i <= 10; i+=2) {
+                    let xPx = mapX(i);
+                    ctx.beginPath(); ctx.moveTo(xPx, yPos - 8); ctx.lineTo(xPx, yPos + 8);
+                    ctx.lineWidth = (i===0)?4:2; ctx.strokeStyle = (i===0)?textColor:gridColor; ctx.stroke();
+                    ctx.fillText(i.toString(), xPx, yPos + 15);
+                }
+                ctx.font = 'bold 20px Inter'; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+                ctx.fillText(label, margin - 40, yPos - 30);
+            }
+
+            function drawArrow(val, op, yPos, colorStr) {
+                applyShadow();
+                let startX = mapX(val);
+                let endX = op.includes('<') ? margin - 20 : W - margin + 20;
+                
+                // Línea gruesa
+                ctx.beginPath(); ctx.moveTo(startX, yPos); ctx.lineTo(endX, yPos);
+                ctx.lineWidth = 8; ctx.strokeStyle = colorStr; ctx.stroke();
+
+                // Cabeza de la flecha
+                ctx.fillStyle = colorStr; ctx.beginPath();
+                if(op.includes('<')) {
+                    ctx.moveTo(endX - 15, yPos); ctx.lineTo(endX + 15, yPos - 12); ctx.lineTo(endX + 15, yPos + 12);
+                } else {
+                    ctx.moveTo(endX + 15, yPos); ctx.lineTo(endX - 15, yPos - 12); ctx.lineTo(endX - 15, yPos + 12);
+                }
+                ctx.fill();
+
+                // Círculo
+                ctx.beginPath(); ctx.arc(startX, yPos, 12, 0, 2 * Math.PI);
+                ctx.fillStyle = isEndpointIncluded(op) ? colorStr : bgColor;
+                ctx.fill(); 
+                ctx.lineWidth = 5; ctx.strokeStyle = colorStr; ctx.stroke();
+                clearShadow();
+            }
+
+            function drawResultLine(yPos, colorStr) {
+                ctx.beginPath();
+                let isDrawing = false;
+                applyShadow();
+                for(let px = margin - 20; px <= W - margin + 20; px += 1) {
+                    let xVal = minX + ((px - margin) / usableW) * (maxX - minX);
+                    let truthA = evaluateInequality(valA, opA, xVal);
+                    let truthB = evaluateInequality(valB, opB, xVal);
+                    let isSol = logicType === 'AND' ? (truthA && truthB) : (truthA || truthB);
+
+                    if(isSol && !isDrawing) { isDrawing = true; ctx.moveTo(px, yPos); } 
+                    else if(isSol && isDrawing) { ctx.lineTo(px, yPos); } 
+                    else if(!isSol && isDrawing) { isDrawing = false; ctx.lineWidth = 10; ctx.strokeStyle = colorStr; ctx.stroke(); ctx.beginPath(); }
+                }
+                if(isDrawing) { ctx.lineWidth = 10; ctx.strokeStyle = colorStr; ctx.stroke(); }
+
+                // Check endpoints
+                [valA, valB].forEach(val => {
+                    let isSol = logicType === 'AND' ? 
+                        (evaluateInequality(valA, opA, val) || (val===valA && isEndpointIncluded(opA))) && 
+                        (evaluateInequality(valB, opB, val) || (val===valB && isEndpointIncluded(opB))) 
+                        : 
+                        (evaluateInequality(valA, opA, val) || (val===valA && isEndpointIncluded(opA))) || 
+                        (evaluateInequality(valB, opB, val) || (val===valB && isEndpointIncluded(opB)));
+
+                    let shiftL = val - 0.01; let shiftR = val + 0.01;
+                    let solL = logicType==='AND' ? (evaluateInequality(valA,opA,shiftL)&&evaluateInequality(valB,opB,shiftL)) : (evaluateInequality(valA,opA,shiftL)||evaluateInequality(valB,opB,shiftL));
+                    let solR = logicType==='AND' ? (evaluateInequality(valA,opA,shiftR)&&evaluateInequality(valB,opB,shiftR)) : (evaluateInequality(valA,opA,shiftR)||evaluateInequality(valB,opB,shiftR));
+                    
+                    if (solL !== solR || (valA === valB)) {
+                        ctx.beginPath(); ctx.arc(mapX(val), yPos, 12, 0, 2*Math.PI);
+                        ctx.fillStyle = isSol ? colorStr : bgColor; ctx.fill();
+                        ctx.lineWidth=5; ctx.strokeStyle=colorStr; ctx.stroke();
+                    }
+                });
+                clearShadow();
+            }
+
+            const y1 = 80, y2 = 210, y3 = 340;
+            const colorA = '#3b82f6', colorB = '#f97316', colorRes = logicType === 'AND' ? '#14b8a6' : '#f43f5e';
+
+            drawAxis(y1, `Inequality 1: x ${opA.replace('<=','≤').replace('>=','≥')} ${valA}`);
+            drawArrow(valA, opA, y1, colorA);
+
+            drawAxis(y2, `Inequality 2: x ${opB.replace('<=','≤').replace('>=','≥')} ${valB}`);
+            drawArrow(valB, opB, y2, colorB);
+
+            drawAxis(y3, `Final Solution (${logicType})`);
+            drawResultLine(y3, colorRes);
+        }
+
+        function redrawAllCanvases() {
+            const cAnd = document.getElementById('canvas-theory-and');
+            if(cAnd) drawThreeLines(cAnd, 1, '>', 4, '<', 'AND');
+            
+            const cOr = document.getElementById('canvas-theory-or');
+            if(cOr) drawThreeLines(cOr, -1, '<=', 3, '>', 'OR');
+
+            Object.keys(graphConfigs).forEach(id => updateBuilderGraph(id));
+        }
+
+    </script>
+</body>
+</html>
